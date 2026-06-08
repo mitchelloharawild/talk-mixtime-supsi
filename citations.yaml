@@ -1,0 +1,50 @@
+- id: aignerVisualizationTimeOrientedData2023
+  accessed:
+    - year: 2025
+      month: 8
+      day: 13
+  author:
+    - family: Aigner
+      given: Wolfgang
+    - family: Miksch
+      given: Silvia
+    - family: Schumann
+      given: Heidrun
+    - family: Tominski
+      given: Christian
+  citation-key: aignerVisualizationTimeOrientedData2023
+  collection-title: Human–Computer Interaction Series
+  DOI: 10.1007/978-1-4471-7527-8
+  ISBN: 978-1-4471-7526-1 978-1-4471-7527-8
+  issued:
+    - year: 2023
+  language: en
+  license: https://creativecommons.org/licenses/by/4.0
+  publisher: Springer London
+  publisher-place: London
+  source: DOI.org (Crossref)
+  title: Visualization of Time-Oriented Data
+  type: book
+  URL: https://link.springer.com/10.1007/978-1-4471-7527-8
+- id: vaughanIvsIntervalVectors2022
+  accessed:
+    - year: 2026
+      month: 4
+      day: 12
+  author:
+    - family: Vaughan
+      given: Davis
+  citation-key: vaughanIvsIntervalVectors2022
+  DOI: 10.32614/CRAN.package.ivs
+  issued:
+    - year: 2022
+      month: 4
+      day: 5
+  language: en
+  page: 0.2.0
+  publisher: Comprehensive R Archive Network
+  source: DOI.org (Crossref)
+  title: 'ivs: Interval Vectors'
+  title-short: ivs
+  type: dataset
+  URL: https://CRAN.R-project.org/package=ivs
