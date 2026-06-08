@@ -53,21 +53,23 @@ The `mixtime` R package provides a principled framework for representing time ac
   - Floor/round/ceiling time
   - Sequences
   - Time formatting (the hardest part!)
-- The hero of the story - vecvec and the vectorverse
-- Mixed temporal granularity data structures
 - Applications of mixtime:
   - Australian CPI (quarterly -\> monthly)
   - Temporal hierarchies (`tsibble::aggregate_index()`)
   - Cross-temporal hierarchies (`tsibble::aggregate_index()` and
     `tsibble::aggregate_key()`)
-- Overview of ggtime
+- How it works
+  - Time systems (civil / astronomical)
+  - Calendar systems (extending time systems)
+  - {vecvec} vectors of vectors
+    - {mixtime} mixed granularity
+    - {distributional} mixed shape
+    - ...
+- Overview of ggtime (time permitting bonus slides)
   - `scale_*_mixtime()`
   - `coord_loop()` / `coord_calendar()`
   - `geom_time_line()`
   - `position_time_civil()` / `position_time_absolute()`
-- Future work
-  - Rework `ggtime` for new `mixtime` design
-  - Rebase `distributional` on `vecvec`
 
 ### Format
 
