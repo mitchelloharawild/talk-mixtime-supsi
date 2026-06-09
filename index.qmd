@@ -111,14 +111,18 @@ library(mixtime)
 :::
 
 
-## {}
+## {.center}
 
 ### Not just reconciliation
 
-- safer statistical manipulation
-- time-series visualisation
-- improved modelling of time  
-  (e.g. holidays, seasonality in other calendars)
+Better time systems support...
+
+[🛠️ safer statistical manipulation 🛠️]{.fragment}  
+
+[📈 time-series visualisation 📈]{.fragment}  
+
+[⏳ improved modelling of time ⏳  
+(e.g. holidays, seasonality in other calendars)]{.fragment}
 
 ## {}
 
@@ -160,6 +164,23 @@ How do we represent time?
 
 :::
 
+
+## {.center}
+
+::: {style="font-size: 2.5em;"}
+
+How do we represent time?  
+
+:::
+
+
+::: {style="font-size: 1.5em;"}
+
+**Physically?**
+
+:::
+
+
 ## {}
 
 <!-- ### Representing time -->
@@ -168,10 +189,60 @@ How do we represent time?
 
 ![](resources/clocks/bassano-italy.jpeg)
 
-![](resources/clocks/garden-innsbruck.jpg){.fragment}
+![](resources/clocks/astro-cosmos.jpg){.fragment}
+:::
+
+## {.center}
+
+::: {style="font-size: 2.5em;"}
+
+How do we represent time?  
+
+:::
+
+
+::: {style="font-size: 1.5em;"}
+
+*Artistically?*
+
+:::
+
+## {}
+
+<!-- ### Representing time -->
+
+::: {.r-stack}
+
+![](resources/clocks/garden-innsbruck.jpg)
 
 ![](resources/clocks/garden-melbourne.jpg){.fragment}
 :::
+
+
+
+## {.center}
+
+::: {style="font-size: 2.5em;"}
+
+How do we represent time?  
+
+:::
+
+
+::: {style="font-size: 1.5em;"}
+
+`Computationally?`
+
+:::
+
+## {.center}
+
+::: {style="font-size: 5em;"}
+
+🤪
+
+:::
+
 
 ## {}
 
