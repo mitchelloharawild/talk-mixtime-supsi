@@ -11,7 +11,7 @@
     "href": "index.html#section-4",
     "title": "",
     "section": "",
-    "text": "Not just reconciliation\n\nsafer statistical manipulation\ntime-series visualisation\nimproved modelling of time\n(e.g. holidays, seasonality in other calendars)"
+    "text": "Not just reconciliation\nBetter time systems support…\n🛠️ safer statistical manipulation 🛠️\n📈 time-series visualisation 📈\n⏳ improved modelling of time ⏳\n(e.g. holidays, seasonality in other calendars)"
   },
   {
     "objectID": "index.html#section-5",
@@ -28,309 +28,337 @@
     "text": "How do we represent time?\n\n\n(& what isn’t represented?)"
   },
   {
-    "objectID": "index.html#section-8",
-    "href": "index.html#section-8",
+    "objectID": "index.html#section-7",
+    "href": "index.html#section-7",
     "title": "",
     "section": "",
-    "text": "Time is tricky!\nTime seems simple - continuous and ordinal.\nIn practice, time is complex - resulting in many different data structures to represent:\n⏱️ Temporal granularities\n🗺️ Time zones (and daylight savings time)\n📅 Calendar systems (and time systems)\n💽 Encodings (sequence, offset, component)\n🕰️ Time model (continuous and discrete)\n🔁 Time type (linear, cyclical, duration, …)\n✍️ Time formatting (parse and deparse)\n😵‍💫 and all combinations of the above!"
+    "text": "How do we represent time?\n\n\nPhysically?"
   },
   {
     "objectID": "index.html#section-9",
     "href": "index.html#section-9",
     "title": "",
     "section": "",
-    "text": "Calendar systems and algorithms\n\n\nOne of the most fascinating books I’ve read all year. Takes chronology into the computer age with impressive erudition and elan.\n[…]\nA must for everyone who worries about days, months, years – and why they never quite fit.\nIan Stewart\n\n\n\n\nThe goal of calcal is to do calendrical calculations, based on the algorithms described in Reingold and Dershowitz (2018) Calendrical Calculations: The Ultimate Edition.\nRob Hyndman\n\n\n\n\n\n“But can we do better?”\nMe 🤓"
-  },
-  {
-    "objectID": "index.html#section-10",
-    "href": "index.html#section-10",
-    "title": "",
-    "section": "",
-    "text": "Encoding time as data\nThere are three main ways to store time.\n\nTime sequences (start, length, frequency)\nTime points (time units since an epoch)\nTime components (year, month, day, …)\n\n\nR uses all three of these representations:\n\nts objects are time sequences\nPOSIXct/Date objects are time points\nPOSIXlt objects are time components"
+    "text": "How do we represent time?\n\n\nArtistically?"
   },
   {
     "objectID": "index.html#section-11",
     "href": "index.html#section-11",
     "title": "",
     "section": "",
-    "text": "Time in R: ts\nA ts object is very efficient (but limited).\n\n\nts(\n  rnorm(12),\n  start = c(2020, 1),\n  end = c(2022, 4),\n  frequency = 4\n)\n\n            Qtr1        Qtr2        Qtr3        Qtr4\n2020 -2.34989610  0.20398232  0.99110138  0.34963453\n2021 -0.84437305  0.16552933  1.69318121 -1.17590285\n2022 -0.71032708 -0.02571098 -0.16064150 -2.22617693\n\n\nGreat for regular time series, with integer frequencies (e.g. months over years).\n\n\n\nts(\n  rnorm(10),\n  start = c(2020, 1),\n  frequency = 365.25\n)\n\nTime Series:\nStart = 2020 \nEnd = 2020.02464065708 \nFrequency = 365.25 \n [1] -0.34794470 -0.23202732  1.15419455 -0.08053593  0.91049550 -0.34681044\n [7] -0.40292544  0.71766081 -0.06419557 -0.92981255\n\n\nTerrible for irregular time series with non-integer frequencies (i.e. &lt;= weekly in years)."
+    "text": "How do we represent time?\n\n\nComputationally?"
   },
   {
     "objectID": "index.html#section-12",
     "href": "index.html#section-12",
     "title": "",
     "section": "",
-    "text": "Time in R: Date and POSIXct\nDate and POSIXct objects are days and seconds since Unix epoch (1970-01-01).\n\n.Date(5777)\n\n[1] \"1985-10-26\"\n\n.POSIXct(499163700, tz = \"America/Los_Angeles\")\n\n[1] \"1985-10-26 01:35:00 PDT\"\n\n\nTime stored in this way is space efficient, supports irregular time series, and can handle time zones."
+    "text": "🤪"
   },
   {
     "objectID": "index.html#section-13",
     "href": "index.html#section-13",
     "title": "",
     "section": "",
-    "text": "Time in R: POSIXlt\nPOSIXlt objects are lists of time components (year, month of year, day of month, …).\n\n.POSIXlt(list(\n  sec = 0, min = 35L, hour = 1L,\n  mday = 26L, mon = 9L, year = 85L, \n  wday = 6L, yday = 298L, isdst = 1L,\n  zone = \"PDT\", gmtoff = -25200L),\n  tz = \"America/Los_Angeles\"\n)\n\n[1] \"1985-10-26 01:35:00 PDT\"\n\n\nThis data structure is very inefficient, but allows easy access to (and manipulation of) time components."
+    "text": "Time is tricky!\nTime seems simple - continuous and ordinal.\nIn practice, time is complex - resulting in many different data structures to represent:\n⏱️ Temporal granularities\n🗺️ Time zones (and daylight savings time)\n📅 Calendar systems (and time systems)\n💽 Encodings (sequence, offset, component)\n🕰️ Time model (continuous and discrete)\n🔁 Time type (linear, cyclical, duration, …)\n✍️ Time formatting (parse and deparse)\n😵‍💫 and all combinations of the above!"
   },
   {
     "objectID": "index.html#section-14",
     "href": "index.html#section-14",
     "title": "",
     "section": "",
-    "text": "Time types, models, and systems\n\n\n\n\n\n\n\nTime types\n\n\n\nLinear time is linear and unbounded (e.g. dates).\nCyclical time repeats in cycles (e.g. day of week).\nTime durations are lengths of time (e.g. 3 months).\n… and many more (any ideas?).\n\n\n\n\n\n\n\n\n\n\n\n\nTime models\n\n\n\nDiscrete time models have indivisible chronons.\nContinuous time models allow fractional chronons.\n\nMapping discrete time to continuous time (or a more precise chronon) introduces temporal indeterminancy.\n\n\n\n\n\n\n\n\n\n\n\nTime systems\n\n\n\nCivil time is based on local laws (time zones)\nAstronomical time is based on astronomy (sun, moon)\n\n\n\n\n\n\n\n\n\n\n\n\nTime is NOT simple!\n\n\nThe mixtime package simplifies working with time."
+    "text": "Calendar systems and algorithms\n\n\nOne of the most fascinating books I’ve read all year. Takes chronology into the computer age with impressive erudition and elan.\n[…]\nA must for everyone who worries about days, months, years – and why they never quite fit.\nIan Stewart\n\n\n\n\nThe goal of calcal is to do calendrical calculations, based on the algorithms described in Reingold and Dershowitz (2018) Calendrical Calculations: The Ultimate Edition.\nRob Hyndman\n\n\n\n\n\n“But can we do better?”\nMe 🤓"
   },
   {
     "objectID": "index.html#section-15",
     "href": "index.html#section-15",
     "title": "",
     "section": "",
-    "text": "Aspect\nts\nDate\nPOSIXct\nPOSIXlt\n\n\n\n\nMemory efficient\n✅\n✅\n✅\n❌\n\n\nCompute cost\n✅\n✅\n✅\n❌\n\n\nIrregular times\n❌\n✅\n✅\n✅\n\n\nTime zones\n❌\n❌\n✅\n✅\n\n\nTime types\n❌\n❌\n❌\n❌\n\n\nTime models\n❌\n❌\n❌\n❌\n\n\nCalendars\n❌\n⚠️\n⚠️\n⚠️\n\n\nGranularity support\n✅\n❌\n❌\n❌\n\n\nMixed granularity\n❌\n❌\n❌\n❌\n\n\n\n(⚠️ Gregorian calendar only)"
+    "text": "Encoding time as data\nThere are three main ways to store time.\n\nTime sequences (start, length, frequency)\nTime points (time units since an epoch)\nTime components (year, month, day, …)\n\n\nR uses all three of these representations:\n\nts objects are time sequences\nPOSIXct/Date objects are time points\nPOSIXlt objects are time components"
   },
   {
     "objectID": "index.html#section-16",
     "href": "index.html#section-16",
     "title": "",
     "section": "",
-    "text": "Aspect\nts\nDate\nPOSIXct\nPOSIXlt\nmixtime\n\n\n\n\nMemory efficient\n✅\n✅\n✅\n❌\n✅\n\n\nCompute cost\n✅\n✅\n✅\n❌\n✅\n\n\nIrregular times\n❌\n✅\n✅\n✅\n✅\n\n\nTime zones\n❌\n❌\n✅\n✅\n✅\n\n\nTime types\n❌\n❌\n❌\n❌\n✅\n\n\nTime models\n❌\n❌\n❌\n❌\n✅\n\n\nCalendars\n❌\n⚠️\n⚠️\n⚠️\n✅\n\n\nGranularity support\n✅\n❌\n❌\n❌\n✅\n\n\nMixed granularity\n❌\n❌\n❌\n❌\n✅\n\n\n\n(⚠️ Gregorian calendar only)"
+    "text": "Time in R: ts\nA ts object is very efficient (but limited).\n\n\nts(\n  rnorm(12),\n  start = c(2020, 1),\n  end = c(2022, 4),\n  frequency = 4\n)\n\n            Qtr1        Qtr2        Qtr3        Qtr4\n2020 -2.34989610  0.20398232  0.99110138  0.34963453\n2021 -0.84437305  0.16552933  1.69318121 -1.17590285\n2022 -0.71032708 -0.02571098 -0.16064150 -2.22617693\n\n\nGreat for regular time series, with integer frequencies (e.g. months over years).\n\n\n\nts(\n  rnorm(10),\n  start = c(2020, 1),\n  frequency = 365.25\n)\n\nTime Series:\nStart = 2020 \nEnd = 2020.02464065708 \nFrequency = 365.25 \n [1] -0.34794470 -0.23202732  1.15419455 -0.08053593  0.91049550 -0.34681044\n [7] -0.40292544  0.71766081 -0.06419557 -0.92981255\n\n\nTerrible for irregular time series with non-integer frequencies (i.e. &lt;= weekly in years)."
   },
   {
     "objectID": "index.html#section-17",
     "href": "index.html#section-17",
     "title": "",
     "section": "",
-    "text": "Why do we need mixtime?\n\nExisting time objects use single granularities.\n\n\n\n\n\n\n\n\nHow do you represent monthly data in R?\n\n\n\nIt is common practice to use Date with the day of month 1.\n\"October 1985\" → \"1985-10-01\"\nWhat about quarterly data? What problems might arise?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWe often need to mix time granularities together\n\n\n\nTemporal reconciliation\nChanging observation frequency\nCombining different data sources\n\n\n\n\n\n\n\n\n\n\n\n\nWhile we’re here, let’s make it good!\n\n\n\nConsistent (including timezones for all!)\nEfficient (fast and small memory footprint)\nMulti-calendar (not just Gregorian)\nExtensible (endless business calendars exist)"
+    "text": "Time in R: Date and POSIXct\nDate and POSIXct objects are days and seconds since Unix epoch (1970-01-01).\n\n.Date(5777)\n\n[1] \"1985-10-26\"\n\n.POSIXct(499163700, tz = \"America/Los_Angeles\")\n\n[1] \"1985-10-26 01:35:00 PDT\"\n\n\nTime stored in this way is space efficient, supports irregular time series, and can handle time zones."
   },
   {
     "objectID": "index.html#section-18",
     "href": "index.html#section-18",
     "title": "",
     "section": "",
-    "text": "Temporal theory and terminology\n\n\n\n\nSourced from Aigner et al. (2023)\n\n\n\n\n\n\n\n\n\nTerminology\n\n\n\nA time unit is a named unit of time (e.g. day, year).\nA time granule is a time unit and value (e.g. 2 weeks).\nA chronon is the finest granule of discrete time models.\nA cycle is a coarser granule that loops time chronons.\nA granularity is a partition of time by granules.\nA calendar is a system of time units and their relation."
+    "text": "Time in R: POSIXlt\nPOSIXlt objects are lists of time components (year, month of year, day of month, …).\n\n.POSIXlt(list(\n  sec = 0, min = 35L, hour = 1L,\n  mday = 26L, mon = 9L, year = 85L, \n  wday = 6L, yday = 298L, isdst = 1L,\n  zone = \"PDT\", gmtoff = -25200L),\n  tz = \"America/Los_Angeles\"\n)\n\n[1] \"1985-10-26 01:35:00 PDT\"\n\n\nThis data structure is very inefficient, but allows easy access to (and manipulation of) time components."
   },
   {
     "objectID": "index.html#section-19",
     "href": "index.html#section-19",
     "title": "",
     "section": "",
-    "text": "Units, granules, & calendars\n\nCalendars are sets of time units.\n\n\n\n\ncal_gregorian\n\n&lt;cal_gregorian&gt;\nTime units:\n  - year\n  - quarter\n  - month\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\ncal_isoweek\n\n&lt;cal_isoweek&gt;\nTime units:\n  - year\n  - week\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\ncal_sym454\n\n&lt;cal_sym454&gt;\nTime units:\n  - year\n  - month\n  - week\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\n\nTime units are functions that make granules.\n\ncal_gregorian$month(1L, tz = \"America/Los_Angeles\")\n\n&lt;mixtime::tu_month&gt;\n @ n : int 1\n @ tz: chr \"America/Los_Angeles\"\n\n\n\n\nand granules are everything in mixtime.\n⏱️ Time type granularities\n🗺️ Time zones (and daylight savings time)\n📅 Calendar systems (and time systems)\n✍️ Time formatting (parse and deparse)"
+    "text": "Time types, models, and systems\n\n\n\n\n\n\n\nTime types\n\n\n\nLinear time is linear and unbounded (e.g. dates).\nCyclical time repeats in cycles (e.g. day of week).\nTime durations are lengths of time (e.g. 3 months).\n… and many more (any ideas?).\n\n\n\n\n\n\n\n\n\n\n\n\nTime models\n\n\n\nDiscrete time models have indivisible chronons.\nContinuous time models allow fractional chronons.\n\nMapping discrete time to continuous time (or a more precise chronon) introduces temporal indeterminancy.\n\n\n\n\n\n\n\n\n\n\n\nTime systems\n\n\n\nCivil time is based on local laws (time zones)\nAstronomical time is based on astronomy (sun, moon)\n\n\n\n\n\n\n\n\n\n\n\n\nTime is NOT simple!\n\n\nThe mixtime package simplifies working with time."
   },
   {
     "objectID": "index.html#section-20",
     "href": "index.html#section-20",
     "title": "",
     "section": "",
-    "text": "Chronons and time points\n\nmixtime stores time as chronons since\nan epoch (like Date & POSIXct).\nIn mixtime, the chronon can be any granule.\n\n\n\n\n\n\nGranules galore\n\n\n\ncal_gregorian$second(1L) for 1 second\ncal_gregorian$minute(15L) for 15 minutes\ncal_isoweek$week(2L,tz=\"Asia/Tokyo\")\nfor a fortnight in Tokyo\ncal_time_lunar$month(1L) for a lunar cycle\ncal_time_solar$day(1L,lat=-37.81,lon=144.96) for a solar day (midnight boundary) in Melbourne"
+    "text": "Aspect\nts\nDate\nPOSIXct\nPOSIXlt\n\n\n\n\nMemory efficient\n✅\n✅\n✅\n❌\n\n\nCompute cost\n✅\n✅\n✅\n❌\n\n\nIrregular times\n❌\n✅\n✅\n✅\n\n\nTime zones\n❌\n❌\n✅\n✅\n\n\nTime types\n❌\n❌\n❌\n❌\n\n\nTime models\n❌\n❌\n❌\n❌\n\n\nCalendars\n❌\n⚠️\n⚠️\n⚠️\n\n\nGranularity support\n✅\n❌\n❌\n❌\n\n\nMixed granularity\n❌\n❌\n❌\n❌\n\n\n\n(⚠️ Gregorian calendar only)"
   },
   {
     "objectID": "index.html#section-21",
     "href": "index.html#section-21",
     "title": "",
     "section": "",
-    "text": "Time types: linear_time()\n\nLinear time vectors are created with linear_time() in reference to a chronon.\n\nlinear_time(\n  5777L,\n  chronon = day(1L, tz = \"America/Los_Angeles\")\n)\n\n&lt;mixtime[1]&gt;\n[1] 1985-10-26 PDT\n\n\n\n\n\n\n\n\n\nHelper functions\n\n\n\nQuickly create common time points with:\n\n\n\nyear()\nyearquarter()\nyearmonth()\n\n\n\nyearweek()\ndate()\ndatetime()\n\n\n\n\nFor example…\n\nyearmonth(\"1985-10-26\", tz = \"America/Los_Angeles\")\n\n&lt;mixtime[1]&gt;\n[1] 1985 Oct PDT"
+    "text": "Aspect\nts\nDate\nPOSIXct\nPOSIXlt\nmixtime\n\n\n\n\nMemory efficient\n✅\n✅\n✅\n❌\n✅\n\n\nCompute cost\n✅\n✅\n✅\n❌\n✅\n\n\nIrregular times\n❌\n✅\n✅\n✅\n✅\n\n\nTime zones\n❌\n❌\n✅\n✅\n✅\n\n\nTime types\n❌\n❌\n❌\n❌\n✅\n\n\nTime models\n❌\n❌\n❌\n❌\n✅\n\n\nCalendars\n❌\n⚠️\n⚠️\n⚠️\n✅\n\n\nGranularity support\n✅\n❌\n❌\n❌\n✅\n\n\nMixed granularity\n❌\n❌\n❌\n❌\n✅\n\n\n\n(⚠️ Gregorian calendar only)"
   },
   {
     "objectID": "index.html#section-22",
     "href": "index.html#section-22",
     "title": "",
     "section": "",
-    "text": "Time types: cyclical_time()\n\nCyclical time vectors are created with cyclical_time() in reference to a chronon.\n\ncyclical_time(\n  \"1985-10-26\",\n  chronon = month(1L, tz = \"America/Los_Angeles\"),\n  cycle = year(1L, tz = \"America/Los_Angeles\")\n)\n\n&lt;mixtime[1]&gt;\n[1] Oct PDT\n\n\n\n\n\n\n\n\n\nHelper functions\n\n\n\nQuickly create common cyclical time points with:\n\n\n\nmonth_of_year()\nweek_of_year()\nday_of_year()\n\n\n\nday_of_month()\nday_of_week()\ntime_of_day()\n\n\n\n\nFor example…\n\nday_of_week(\"1985-10-26\", tz = \"America/Los_Angeles\")\n\n&lt;mixtime[1]&gt;\n[1] Sat PDT"
+    "text": "Why do we need mixtime?\n\nExisting time objects use single granularities.\n\n\n\n\n\n\n\n\nHow do you represent monthly data in R?\n\n\n\nIt is common practice to use Date with the day of month 1.\n\"October 1985\" → \"1985-10-01\"\nWhat about quarterly data? What problems might arise?\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nWe often need to mix time granularities together\n\n\n\nTemporal reconciliation\nChanging observation frequency\nCombining different data sources\n\n\n\n\n\n\n\n\n\n\n\n\nWhile we’re here, let’s make it good!\n\n\n\nConsistent (including timezones for all!)\nEfficient (fast and small memory footprint)\nMulti-calendar (not just Gregorian)\nExtensible (endless business calendars exist)"
   },
   {
     "objectID": "index.html#section-23",
     "href": "index.html#section-23",
     "title": "",
     "section": "",
-    "text": "Time types: duration()\n\nDuration vectors are created with duration() in reference to a chronon.\n\nduration(\n  3L,\n  chronon = year(1L, tz = \"Australia/Melbourne\"),\n)\n\n&lt;mixtime[1]&gt;\n[1] 3 years\n\n\n\n\n\n\n\n\n\nHelper functions\n\n\n\nQuickly create common time durations with:\n\n\n\nyears()\nquarters()\nmonths()\nweeks()\n\n\n\ndays()\nhours()\nminutes()\nseconds()\n\n\n\n\nFor example…\n\nmonths(3L, tz = \"Australia/Melbourne\")\n\n&lt;mixtime[1]&gt;\n[1] 3 months"
+    "text": "Temporal theory and terminology\n\n\n\n\nSourced from Aigner et al. (2023)\n\n\n\n\n\n\n\n\n\nTerminology\n\n\n\nA time unit is a named unit of time (e.g. day, year).\nA time granule is a time unit and value (e.g. 2 weeks).\nA chronon is the finest granule of discrete time models.\nA cycle is a coarser granule that loops time chronons.\nA granularity is a partition of time by granules.\nA calendar is a system of time units and their relation."
   },
   {
     "objectID": "index.html#section-24",
     "href": "index.html#section-24",
     "title": "",
     "section": "",
-    "text": "Time types: ivs::iv()\n\nTime intervals are no different from\ninterval vectors - another type of semantic vector that is implemented in the ivs R package by Vaughan (2022).\n\nlibrary(ivs)\niv(\n  start = date(\"1955-11-12\", tz = \"America/Los_Angeles\"),\n  end = date(\"1985-10-26\", tz = \"America/Los_Angeles\")\n)\n\n&lt;iv&lt;mixtime&gt;[1]&gt;\n[1] [1955-11-12 PST, 1985-10-26 PDT)\n\n\nivs::iv() checks thart start &lt; end. Cyclical time and durations can also be used."
+    "text": "Units, granules, & calendars\n\nCalendars are sets of time units.\n\n\n\n\ncal_gregorian\n\n&lt;cal_gregorian&gt;\nTime units:\n  - year\n  - quarter\n  - month\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\ncal_isoweek\n\n&lt;cal_isoweek&gt;\nTime units:\n  - year\n  - week\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\ncal_sym454\n\n&lt;cal_sym454&gt;\nTime units:\n  - year\n  - month\n  - week\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\n\nTime units are functions that make granules.\n\ncal_gregorian$month(1L, tz = \"America/Los_Angeles\")\n\n&lt;mixtime::tu_month&gt;\n @ n : int 1\n @ tz: chr \"America/Los_Angeles\"\n\n\n\n\nand granules are everything in mixtime.\n⏱️ Time type granularities\n🗺️ Time zones (and daylight savings time)\n📅 Calendar systems (and time systems)\n✍️ Time formatting (parse and deparse)"
   },
   {
     "objectID": "index.html#section-25",
     "href": "index.html#section-25",
     "title": "",
     "section": "",
-    "text": "Time models\n\nContinuous time allows for fractional chronons, discrete time does not.\n\ndate(\n  \"2026-04-17 09:55:00\", \n  tz = \"Australia/Melbourne\", \n  discrete = FALSE\n)\n\n&lt;mixtime[1]&gt;\n[1] 2026-04-17 41.3% AEST\n\n\n\n\n\n\n\n\n\nIntegers and doubles\n\n\nAll time types suport continuous & discrete time models.\nInternally,\n\ndiscrete time is stored as integers (1 day = 1L)\ncontinuous time is stored as doubles (50% of day = 0.5)"
+    "text": "Chronons and time points\n\nmixtime stores time as chronons since\nan epoch (like Date & POSIXct).\nIn mixtime, the chronon can be any granule.\n\n\n\n\n\n\nGranules galore\n\n\n\ncal_gregorian$second(1L) for 1 second\ncal_gregorian$minute(15L) for 15 minutes\ncal_isoweek$week(2L,tz=\"Asia/Tokyo\")\nfor a fortnight in Tokyo\ncal_time_lunar$month(1L) for a lunar cycle\ncal_time_solar$day(1L,lat=-37.81,lon=144.96) for a solar day (midnight boundary) in Melbourne"
+  },
+  {
+    "objectID": "index.html#section-26",
+    "href": "index.html#section-26",
+    "title": "",
+    "section": "",
+    "text": "Time types: linear_time()\n\nLinear time vectors are created with linear_time() in reference to a chronon.\n\nlinear_time(\n  5777L,\n  chronon = day(1L, tz = \"America/Los_Angeles\")\n)\n\n&lt;mixtime[1]&gt;\n[1] 1985-10-26 PDT\n\n\n\n\n\n\n\n\n\nHelper functions\n\n\n\nQuickly create common time points with:\n\n\n\nyear()\nyearquarter()\nyearmonth()\n\n\n\nyearweek()\ndate()\ndatetime()\n\n\n\n\nFor example…\n\nyearmonth(\"1985-10-26\", tz = \"America/Los_Angeles\")\n\n&lt;mixtime[1]&gt;\n[1] 1985 Oct PDT"
   },
   {
     "objectID": "index.html#section-27",
     "href": "index.html#section-27",
     "title": "",
     "section": "",
-    "text": "Manipulating time\n\nArithmetic can manipulate time.\n\npresent &lt;- date(\"1985-10-26\", tz = \"America/Los_Angeles\")\npast &lt;- date(\"1955-11-05\", tz = \"America/Los_Angeles\")\npresent - past\n\n&lt;mixtime[1]&gt;\n[1] 10948.0 days\n\n\n\npast + days(7L)\n\n\n\n&lt;mixtime[1]&gt;\n[1] 1955-11-12 PST\n\n\nSummary statistics can also be calculated.\n\ndates &lt;- date(c(\"1955-11-05\", \"1985-10-26\"), tz = \"America/Los_Angeles\")\nmin(dates)\n\n&lt;mixtime[1]&gt;\n[1] 1955-11-02 PST\n\nmax(dates)\n\n&lt;mixtime[1]&gt;\n[1] 1985-10-23 PDT"
+    "text": "Time types: cyclical_time()\n\nCyclical time vectors are created with cyclical_time() in reference to a chronon.\n\ncyclical_time(\n  \"1985-10-26\",\n  chronon = month(1L, tz = \"America/Los_Angeles\"),\n  cycle = year(1L, tz = \"America/Los_Angeles\")\n)\n\n&lt;mixtime[1]&gt;\n[1] Oct PDT\n\n\n\n\n\n\n\n\n\nHelper functions\n\n\n\nQuickly create common cyclical time points with:\n\n\n\nmonth_of_year()\nweek_of_year()\nday_of_year()\n\n\n\nday_of_month()\nday_of_week()\ntime_of_day()\n\n\n\n\nFor example…\n\nday_of_week(\"1985-10-26\", tz = \"America/Los_Angeles\")\n\n&lt;mixtime[1]&gt;\n[1] Sat PDT"
   },
   {
     "objectID": "index.html#section-28",
     "href": "index.html#section-28",
     "title": "",
     "section": "",
-    "text": "Rounding time\n\nTime can be rounded to any granularity.\n\nday &lt;- date(\"1985-10-26\", tz = \"America/Los_Angeles\")\ntime_round(day, months(1L))\n\n&lt;mixtime[1]&gt;\n[1] 1985-11-01 PST\n\n\n\nThe floor and ceiling can also be calculated.\n\ntime_floor(day, weeks(1L))\n\n&lt;mixtime[1]&gt;\n[1] 1985-10-21 PDT\n\ntime_ceiling(day, years(1L))\n\n&lt;mixtime[1]&gt;\n[1] 1986-01-01 PST"
+    "text": "Time types: duration()\n\nDuration vectors are created with duration() in reference to a chronon.\n\nduration(\n  3L,\n  chronon = year(1L, tz = \"Australia/Melbourne\"),\n)\n\n&lt;mixtime[1]&gt;\n[1] 3 years\n\n\n\n\n\n\n\n\n\nHelper functions\n\n\n\nQuickly create common time durations with:\n\n\n\nyears()\nquarters()\nmonths()\nweeks()\n\n\n\ndays()\nhours()\nminutes()\nseconds()\n\n\n\n\nFor example…\n\nmonths(3L, tz = \"Australia/Melbourne\")\n\n&lt;mixtime[1]&gt;\n[1] 3 months"
   },
   {
     "objectID": "index.html#section-29",
     "href": "index.html#section-29",
     "title": "",
     "section": "",
-    "text": "Time sequences\n\nseq() makes sequences by durations.\n\nseq(\n  date(\"2020-01-31\"), \n  length.out = 6,\n  by = months(1L)\n)\n\nWarning: The cycle offset (31 days) has produced time points that overflow the month\ncycle.\n! Using the nearest valid time points in the cycle, `on_invalid = \"nearest\"`\n  (the default).\nℹ Specify `on_invalid` explicitly to suppress this warning.\n\n\n&lt;mixtime[6]&gt;\n[1] 2020-01-31 2020-02-29 2020-03-31 2020-04-30 2020-05-31 2020-06-30\n\n\n\n\n\n\n\n\n\nInvalid dates\n\n\nInvalid dates can occur when adding irregular cycles to time points. mixtime detects these occurances.\n(e.g. \"2020-01-31\" + 1 month → \"2020-02-31\")."
+    "text": "Time types: ivs::iv()\n\nTime intervals are no different from\ninterval vectors - another type of semantic vector that is implemented in the ivs R package by Vaughan (2022).\n\nlibrary(ivs)\niv(\n  start = date(\"1955-11-12\", tz = \"America/Los_Angeles\"),\n  end = date(\"1985-10-26\", tz = \"America/Los_Angeles\")\n)\n\n&lt;iv&lt;mixtime&gt;[1]&gt;\n[1] [1955-11-12 PST, 1985-10-26 PDT)\n\n\nivs::iv() checks thart start &lt; end. Cyclical time and durations can also be used."
   },
   {
     "objectID": "index.html#section-30",
     "href": "index.html#section-30",
     "title": "",
     "section": "",
-    "text": "Formatting time\n\nTime is usually formatted with ‘strftime’.\n\n\n\n\n\n\n\nstrftime format codes\n\n\n\n%Y for year, %m for month, %d for day\n%H for hour, %M for minute, %S for second\n%z for timezone offset, %Z for timezone name\n\nSo we write: \"%Y-%m-%d %H:%M:%S %Z\"\nto get: \"1985-10-26 01:35:00 PDT\".\n\n\n\n\n\n\n\n\n\n\n\n\nHow would I format an ISO-week date?\n\n\nAs in, YYYY-WW-D (e.g. 1985-W43-6).\n\n%G for ISO year, %V for ISO week, %u for day of week (1-7)\nSo we write: \"%G-W%V-%u\" to get \"1985-W43-6\".\n\n\n\n\n\n\n\n\n\n\n\n\n\nstrftime issues\n\n\n\nVery cryptic format codes\nFormat codes vary by operating system\nLocale-dependent output (e.g. month names)\nLimited to Gregorian and ISOweek calendars"
-  },
-  {
-    "objectID": "index.html#section-31",
-    "href": "index.html#section-31",
-    "title": "",
-    "section": "",
-    "text": "Formatting time\n\nmixtime uses glue-style format strings\nwith more descriptive format codes.\n\n\n\n\n\n\nmixtime format codes\n\n\n\nLinear granules with {lin(granule)}\nCyclical granules with {cyc(granule, cycle)}\n\n\nWhere granule and cycle are:\n\ntime units (e.g. month), or\ntime granules (e.g. month(1L)).\n\n\n\nThe calendar is inherited from the object, but can be explicitly specified with cal_gregorian$month(1L).\nThis also enables mixed-calendar format strings."
+    "text": "Time models\n\nContinuous time allows for fractional chronons, discrete time does not.\n\ndate(\n  \"2026-04-17 09:55:00\", \n  tz = \"Australia/Melbourne\", \n  discrete = FALSE\n)\n\n&lt;mixtime[1]&gt;\n[1] 2026-04-17 41.3% AEST\n\n\n\n\n\n\n\n\n\nIntegers and doubles\n\n\nAll time types suport continuous & discrete time models.\nInternally,\n\ndiscrete time is stored as integers (1 day = 1L)\ncontinuous time is stored as doubles (50% of day = 0.5)"
   },
   {
     "objectID": "index.html#section-32",
     "href": "index.html#section-32",
     "title": "",
     "section": "",
-    "text": "Formatting time\n\n\nEach chronon has a default format string.\n\ndate(Sys.Date(), calendar = cal_gregorian)\n\n&lt;mixtime[1]&gt;\n[1] 2026-06-08\n\ndate(Sys.Date(), calendar = cal_isoweek)\n\n&lt;mixtime[1]&gt;\n[1] 2026-W24-Mon\n\ndate(Sys.Date(), calendar = cal_sym454)\n\n&lt;mixtime[1]&gt;\n[1] 2026-Jun-W2-Mon\n\n\n\n\n\nCustom format strings can be used, e.g.\n\n\n# Day of year\nformat(\n  date(Sys.Date()),\n  format = \"{lin(year)} D{cyc(day, year)}\"\n)\n\n[1] \"2026 D159\"\n\n# Gregorian date (and weekday)\nformat(\n  date(Sys.Date()), \n  format = \"{lin(year)}-{cyc(month,year)}-{cyc(day,month)} ({cyc(day, cal_isoweek$week, label = TRUE)})\"\n)\n\n[1] \"2026-06-08 (Mon)\"\n\n\n\n\n\n# Gregorian date (and lunar phase emoji)\nfmt_gregorian &lt;- \"{lin(year)}-{cyc(month,year)}-{cyc(day,month)}\"\nfmt_lunar &lt;- \"{with(cal_time_lunar, cyc(phase, month, emoji = TRUE))}\"\nformat(\n  date(Sys.Date()), \n  format = paste(fmt_gregorian, fmt_lunar)\n)\n\n[1] \"2026-06-08 🌗\""
+    "text": "Manipulating time\n\nArithmetic can manipulate time.\n\npresent &lt;- date(\"1985-10-26\", tz = \"America/Los_Angeles\")\npast &lt;- date(\"1955-11-05\", tz = \"America/Los_Angeles\")\npresent - past\n\n&lt;mixtime[1]&gt;\n[1] 10948.0 days\n\n\n\npast + days(7L)\n\n\n\n&lt;mixtime[1]&gt;\n[1] 1955-11-12 PST\n\n\nSummary statistics can also be calculated.\n\ndates &lt;- date(c(\"1955-11-05\", \"1985-10-26\"), tz = \"America/Los_Angeles\")\nmin(dates)\n\n&lt;mixtime[1]&gt;\n[1] 1955-11-02 PST\n\nmax(dates)\n\n&lt;mixtime[1]&gt;\n[1] 1985-10-23 PDT"
   },
   {
     "objectID": "index.html#section-33",
     "href": "index.html#section-33",
     "title": "",
     "section": "",
-    "text": "and yes, mixtime mixes time systems 🎉\n\n📅 Mixed granularities (and calendars)\n\n\nc(\n  date(\"1985-10-26\"), \n  yearweek(\"1985-10-26\"),\n  year(1985L)\n)\n\n&lt;mixtime[3]&gt;\n[1] 1985-10-26 1985 W43   1985      \n\n\n\n\n\n🗺️ Mixed time zones (for all granules)\n\nc(\n  date(\"1985-10-26\", tz = \"America/Los_Angeles\"), \n  yearweek(\"1985-10-26\", tz = \"Australia/Melbourne\"),\n  year(1985L, tz = \"Asia/Tokyo\")\n)\n\n&lt;mixtime[3]&gt;\n[1] 1985-10-26 PDT 1985 W43 AEST  1985 JST"
+    "text": "Rounding time\n\nTime can be rounded to any granularity.\n\nday &lt;- date(\"1985-10-26\", tz = \"America/Los_Angeles\")\ntime_round(day, months(1L))\n\n&lt;mixtime[1]&gt;\n[1] 1985-11-01 PST\n\n\n\nThe floor and ceiling can also be calculated.\n\ntime_floor(day, weeks(1L))\n\n&lt;mixtime[1]&gt;\n[1] 1985-10-21 PDT\n\ntime_ceiling(day, years(1L))\n\n&lt;mixtime[1]&gt;\n[1] 1986-01-01 PST"
   },
   {
     "objectID": "index.html#section-34",
     "href": "index.html#section-34",
     "title": "",
     "section": "",
-    "text": "Application - Australian CPI\n\nLast year, the ABS started reporting CPI monthly instead of quarterly.\nMonthly records only go back to April 2024, while quarterly records start in Q3 1948.\n\n\n\n\n🦸 Mixed granularity vectors\n\n\nWith mixtime, these two data sets can be combined.\n\n\n\n\n\n\n\n\nreadabs::read_abs(series_id=\"A2325846C\") |&gt; \n  dplyr::transmute(\n    Time = yearquarter(date), \n    CPI = value\n  ) -&gt; cpi_qtr\ncpi_qtr\n\n# A tibble: 311 × 2\n   Time        CPI\n   &lt;mixtime&gt; &lt;dbl&gt;\n 1 1948 Q3    2.59\n 2 1948 Q4    2.63\n 3 1949 Q1    2.71\n 4 1949 Q2    2.74\n 5 1949 Q3    2.82\n 6 1949 Q4    2.86\n 7 1950 Q1    2.9 \n 8 1950 Q2    3.02\n 9 1950 Q3    3.05\n10 1950 Q4    3.17\n# ℹ 301 more rows\n\n\n\n\nreadabs::read_abs(series_id=\"A130393720C\") |&gt; \n  dplyr::transmute(\n    Time = yearmonth(date), \n    CPI = value\n  ) -&gt; cpi_mth\ncpi_mth\n\n# A tibble: 25 × 2\n   Time        CPI\n   &lt;mixtime&gt; &lt;dbl&gt;\n 1 2024 Apr   96.4\n 2 2024 May   96.2\n 3 2024 Jun   96.5\n 4 2024 Jul   96.8\n 5 2024 Aug   96.5\n 6 2024 Sep   96.5\n 7 2024 Oct   96.3\n 8 2024 Nov   96.7\n 9 2024 Dec   97.3\n10 2025 Jan   97.6\n# ℹ 15 more rows\n\n\n\n\n\n\naus_cpi &lt;- dplyr::bind_rows(\n  Quarterly = cpi_qtr,\n  Monthly = cpi_mth,\n  .id = \"Chronon\"\n)\n\n\n\n\nhead(aus_cpi) \n\n# A tibble: 6 × 3\n  Chronon   Time        CPI\n  &lt;chr&gt;     &lt;mixtime&gt; &lt;dbl&gt;\n1 Quarterly 1948 Q3    2.59\n2 Quarterly 1948 Q4    2.63\n3 Quarterly 1949 Q1    2.71\n4 Quarterly 1949 Q2    2.74\n5 Quarterly 1949 Q3    2.82\n6 Quarterly 1949 Q4    2.86\n\n\n\n\ntail(aus_cpi)\n\n# A tibble: 6 × 3\n  Chronon Time        CPI\n  &lt;chr&gt;   &lt;mixtime&gt; &lt;dbl&gt;\n1 Monthly 2025 Nov   100.\n2 Monthly 2025 Dec   101.\n3 Monthly 2026 Jan   101.\n4 Monthly 2026 Feb   101.\n5 Monthly 2026 Mar   102.\n6 Monthly 2026 Apr   103."
+    "text": "Time sequences\n\nseq() makes sequences by durations.\n\nseq(\n  date(\"2020-01-31\"), \n  length.out = 6,\n  by = months(1L)\n)\n\nWarning: The cycle offset (31 days) has produced time points that overflow the month\ncycle.\n! Using the nearest valid time points in the cycle, `on_invalid = \"nearest\"`\n  (the default).\nℹ Specify `on_invalid` explicitly to suppress this warning.\n\n\n&lt;mixtime[6]&gt;\n[1] 2020-01-31 2020-02-29 2020-03-31 2020-04-30 2020-05-31 2020-06-30\n\n\n\n\n\n\n\n\n\nInvalid dates\n\n\nInvalid dates can occur when adding irregular cycles to time points. mixtime detects these occurances.\n(e.g. \"2020-01-31\" + 1 month → \"2020-02-31\")."
   },
   {
     "objectID": "index.html#section-35",
     "href": "index.html#section-35",
     "title": "",
     "section": "",
-    "text": "Application - Australian CPI\n\n\nlibrary(ggplot2)\nlibrary(ggtime)\nlibrary(dplyr)\naus_cpi |&gt; \n  filter(Time &gt;= year(2020)) |&gt; \n  ggplot() +\n  aes(x = Time, y = CPI, group = Chronon) +\n  geom_line()"
+    "text": "Formatting time\n\nTime is usually formatted with ‘strftime’.\n\n\n\n\n\n\n\nstrftime format codes\n\n\n\n%Y for year, %m for month, %d for day\n%H for hour, %M for minute, %S for second\n%z for timezone offset, %Z for timezone name\n\nSo we write: \"%Y-%m-%d %H:%M:%S %Z\"\nto get: \"1985-10-26 01:35:00 PDT\".\n\n\n\n\n\n\n\n\n\n\n\n\nHow would I format an ISO-week date?\n\n\nAs in, YYYY-WW-D (e.g. 1985-W43-6).\n\n%G for ISO year, %V for ISO week, %u for day of week (1-7)\nSo we write: \"%G-W%V-%u\" to get \"1985-W43-6\".\n\n\n\n\n\n\n\n\n\n\n\n\n\nstrftime issues\n\n\n\nVery cryptic format codes\nFormat codes vary by operating system\nLocale-dependent output (e.g. month names)\nLimited to Gregorian and ISOweek calendars"
   },
   {
     "objectID": "index.html#section-36",
     "href": "index.html#section-36",
     "title": "",
     "section": "",
-    "text": "Application - Aggregation\n\ntsibble::aggregate_index()\naggregates time to coarser granularities.\n\n\nlibrary(tsibble)\ntourism\n\n# A tsibble: 24,320 x 5 [1Q]\n# Key:       Region, State, Purpose [304]\n   Quarter Region   State           Purpose  Trips\n     &lt;qtr&gt; &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;\n 1 1998 Q1 Adelaide South Australia Business  135.\n 2 1998 Q2 Adelaide South Australia Business  110.\n 3 1998 Q3 Adelaide South Australia Business  166.\n 4 1998 Q4 Adelaide South Australia Business  127.\n 5 1999 Q1 Adelaide South Australia Business  137.\n 6 1999 Q2 Adelaide South Australia Business  200.\n 7 1999 Q3 Adelaide South Australia Business  169.\n 8 1999 Q4 Adelaide South Australia Business  134.\n 9 2000 Q1 Adelaide South Australia Business  154.\n10 2000 Q2 Adelaide South Australia Business  169.\n# ℹ 24,310 more rows\n\n\n\n\n\nlibrary(tsibble)\ntourism |&gt; \n  aggregate_index(\n    list(quarter(1L), year(1L)), \n    Trips = sum(Trips)\n  )\n\n# A tsibble: 30,400 x 6 [1Q, 1Y]\n# Key:       Region, State, Purpose, .granule [608]\n   Quarter   Region         State              Purpose  .granule   Trips\n   &lt;mixtime&gt; &lt;chr&gt;          &lt;chr&gt;              &lt;chr&gt;    &lt;mixtime&gt;  &lt;dbl&gt;\n 1 1998 Q1   Adelaide       South Australia    Business 1 quarter 135.  \n 2 1998 Q1   Adelaide       South Australia    Holiday  1 quarter 224.  \n 3 1998 Q1   Adelaide       South Australia    Other    1 quarter  58.4 \n 4 1998 Q1   Adelaide       South Australia    Visiting 1 quarter 242.  \n 5 1998 Q1   Adelaide Hills South Australia    Business 1 quarter   0   \n 6 1998 Q1   Adelaide Hills South Australia    Holiday  1 quarter   6.81\n 7 1998 Q1   Adelaide Hills South Australia    Other    1 quarter   0   \n 8 1998 Q1   Adelaide Hills South Australia    Visiting 1 quarter   2.99\n 9 1998 Q1   Alice Springs  Northern Territory Business 1 quarter   7.54\n10 1998 Q1   Alice Springs  Northern Territory Holiday  1 quarter   8.15\n# ℹ 30,390 more rows"
+    "text": "Formatting time\n\nmixtime uses glue-style format strings\nwith more descriptive format codes.\n\n\n\n\n\n\nmixtime format codes\n\n\n\nLinear granules with {lin(granule)}\nCyclical granules with {cyc(granule, cycle)}\n\n\nWhere granule and cycle are:\n\ntime units (e.g. month), or\ntime granules (e.g. month(1L)).\n\n\n\nThe calendar is inherited from the object, but can be explicitly specified with cal_gregorian$month(1L).\nThis also enables mixed-calendar format strings."
   },
   {
     "objectID": "index.html#section-37",
     "href": "index.html#section-37",
     "title": "",
     "section": "",
-    "text": "Application - Aggregation\n\nCombined with aggregate_key(),\nwe can aggregate cross-temporally\n\nlibrary(tsibble)\ntourism |&gt; \n  aggregate_key(\n    (State / Region) * Purpose,\n    Trips = sum(Trips)\n  ) |&gt; \n  aggregate_index(\n    list(quarter(1L), year(1L)), \n    Trips = sum(Trips)\n  )\n\n# A tsibble: 42,500 x 6 [1Q, 1Y]\n# Key:       State, Purpose, Region, .granule [850]\n\n\n   Quarter   State  Purpose      Region       .granule  Trips\n   &lt;mixtime&gt; &lt;chr*&gt; &lt;chr*&gt;       &lt;chr*&gt;       &lt;mixtime&gt; &lt;dbl&gt;\n 1 1998 Q1   ACT    Business     Canberra     1 quarter 150. \n 2 1998 Q1   ACT    Business     &lt;aggregated&gt; 1 quarter 150. \n 3 1998 Q1   ACT    Holiday      Canberra     1 quarter 196. \n 4 1998 Q1   ACT    Holiday      &lt;aggregated&gt; 1 quarter 196. \n 5 1998 Q1   ACT    Other        Canberra     1 quarter  21.7\n 6 1998 Q1   ACT    Other        &lt;aggregated&gt; 1 quarter  21.7\n 7 1998 Q1   ACT    Visiting     Canberra     1 quarter 183. \n 8 1998 Q1   ACT    Visiting     &lt;aggregated&gt; 1 quarter 183. \n 9 1998 Q1   ACT    &lt;aggregated&gt; Canberra     1 quarter 551. \n10 1998 Q1   ACT    &lt;aggregated&gt; &lt;aggregated&gt; 1 quarter 551. \n# ℹ 42,490 more rows"
+    "text": "Formatting time\n\n\nEach chronon has a default format string.\n\ndate(Sys.Date(), calendar = cal_gregorian)\n\n&lt;mixtime[1]&gt;\n[1] 2026-06-08\n\ndate(Sys.Date(), calendar = cal_isoweek)\n\n&lt;mixtime[1]&gt;\n[1] 2026-W24-Mon\n\ndate(Sys.Date(), calendar = cal_sym454)\n\n&lt;mixtime[1]&gt;\n[1] 2026-Jun-W2-Mon\n\n\n\n\n\nCustom format strings can be used, e.g.\n\n\n# Day of year\nformat(\n  date(Sys.Date()),\n  format = \"{lin(year)} D{cyc(day, year)}\"\n)\n\n[1] \"2026 D159\"\n\n# Gregorian date (and weekday)\nformat(\n  date(Sys.Date()), \n  format = \"{lin(year)}-{cyc(month,year)}-{cyc(day,month)} ({cyc(day, cal_isoweek$week, label = TRUE)})\"\n)\n\n[1] \"2026-06-08 (Mon)\"\n\n\n\n\n\n# Gregorian date (and lunar phase emoji)\nfmt_gregorian &lt;- \"{lin(year)}-{cyc(month,year)}-{cyc(day,month)}\"\nfmt_lunar &lt;- \"{with(cal_time_lunar, cyc(phase, month, emoji = TRUE))}\"\nformat(\n  date(Sys.Date()), \n  format = paste(fmt_gregorian, fmt_lunar)\n)\n\n[1] \"2026-06-08 🌗\""
   },
   {
     "objectID": "index.html#section-38",
     "href": "index.html#section-38",
     "title": "",
     "section": "",
-    "text": "Timezones and Astronomy\n\nTwo primitive time units implement timezone and astronomical properties.\n\n\n\nmt_tz_unit\n\n&lt;mixtime::mt_tz_unit&gt; class\n@ parent     : &lt;mixtime::mt_unit&gt;\n@ constructor: function(n, tz) {...}\n@ validator  : function(self) {...}\n@ properties :\n $ n : &lt;integer&gt; or &lt;double&gt;\n $ tz: &lt;character&gt;          \n\n\n\n\nmt_loc_unit\n\n&lt;mixtime::mt_loc_unit&gt; class\n@ parent     : &lt;mixtime::mt_unit&gt;\n@ constructor: function(n, lat, lon, alt) {...}\n@ validator  : function(self) {...}\n@ properties :\n $ n  : &lt;integer&gt; or &lt;double&gt;\n $ lat: &lt;integer&gt; or &lt;double&gt;\n $ lon: &lt;integer&gt; or &lt;double&gt;\n $ alt: &lt;integer&gt; or &lt;double&gt;"
+    "text": "and yes, mixtime mixes time systems 🎉\n\n📅 Mixed granularities (and calendars)\n\n\nc(\n  date(\"1985-10-26\"), \n  yearweek(\"1985-10-26\"),\n  year(1985L)\n)\n\n&lt;mixtime[3]&gt;\n[1] 1985-10-26 1985 W43   1985      \n\n\n\n\n\n🗺️ Mixed time zones (for all granules)\n\nc(\n  date(\"1985-10-26\", tz = \"America/Los_Angeles\"), \n  yearweek(\"1985-10-26\", tz = \"Australia/Melbourne\"),\n  year(1985L, tz = \"Asia/Tokyo\")\n)\n\n&lt;mixtime[3]&gt;\n[1] 1985-10-26 PDT 1985 W43 AEST  1985 JST"
   },
   {
     "objectID": "index.html#section-39",
     "href": "index.html#section-39",
     "title": "",
     "section": "",
-    "text": "Timezones and Astronomy\n\nCalendars extend primitive time systems.\n\n\n\n\ncal_time_civil\n\n&lt;cal_time_civil&gt;\nTime units:\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\ncal_time_solar\n\n&lt;mt_calendar&gt;\nTime units:\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - degree\n  - arcminute\n  - arcsecond\n  - illumination\n\n\n\n\ncal_time_lunar\n\n&lt;mt_calendar&gt;\nTime units:\n  - month\n  - phase\n\n\n\n\n\n\nThese primitives time units (mt_tz_unit and mt_loc_unit) provide time zone and location based calculations."
+    "text": "Application - Australian CPI\n\nLast year, the ABS started reporting CPI monthly instead of quarterly.\nMonthly records only go back to April 2024, while quarterly records start in Q3 1948.\n\n\n\n\n🦸 Mixed granularity vectors\n\n\nWith mixtime, these two data sets can be combined.\n\n\n\n\n\n\n\n\nreadabs::read_abs(series_id=\"A2325846C\") |&gt; \n  dplyr::transmute(\n    Time = yearquarter(date), \n    CPI = value\n  ) -&gt; cpi_qtr\ncpi_qtr\n\n# A tibble: 311 × 2\n   Time        CPI\n   &lt;mixtime&gt; &lt;dbl&gt;\n 1 1948 Q3    2.59\n 2 1948 Q4    2.63\n 3 1949 Q1    2.71\n 4 1949 Q2    2.74\n 5 1949 Q3    2.82\n 6 1949 Q4    2.86\n 7 1950 Q1    2.9 \n 8 1950 Q2    3.02\n 9 1950 Q3    3.05\n10 1950 Q4    3.17\n# ℹ 301 more rows\n\n\n\n\nreadabs::read_abs(series_id=\"A130393720C\") |&gt; \n  dplyr::transmute(\n    Time = yearmonth(date), \n    CPI = value\n  ) -&gt; cpi_mth\ncpi_mth\n\n# A tibble: 25 × 2\n   Time        CPI\n   &lt;mixtime&gt; &lt;dbl&gt;\n 1 2024 Apr   96.4\n 2 2024 May   96.2\n 3 2024 Jun   96.5\n 4 2024 Jul   96.8\n 5 2024 Aug   96.5\n 6 2024 Sep   96.5\n 7 2024 Oct   96.3\n 8 2024 Nov   96.7\n 9 2024 Dec   97.3\n10 2025 Jan   97.6\n# ℹ 15 more rows\n\n\n\n\n\n\naus_cpi &lt;- dplyr::bind_rows(\n  Quarterly = cpi_qtr,\n  Monthly = cpi_mth,\n  .id = \"Chronon\"\n)\n\n\n\n\nhead(aus_cpi) \n\n# A tibble: 6 × 3\n  Chronon   Time        CPI\n  &lt;chr&gt;     &lt;mixtime&gt; &lt;dbl&gt;\n1 Quarterly 1948 Q3    2.59\n2 Quarterly 1948 Q4    2.63\n3 Quarterly 1949 Q1    2.71\n4 Quarterly 1949 Q2    2.74\n5 Quarterly 1949 Q3    2.82\n6 Quarterly 1949 Q4    2.86\n\n\n\n\ntail(aus_cpi)\n\n# A tibble: 6 × 3\n  Chronon Time        CPI\n  &lt;chr&gt;   &lt;mixtime&gt; &lt;dbl&gt;\n1 Monthly 2025 Nov   100.\n2 Monthly 2025 Dec   101.\n3 Monthly 2026 Jan   101.\n4 Monthly 2026 Feb   101.\n5 Monthly 2026 Mar   102.\n6 Monthly 2026 Apr   103."
   },
   {
     "objectID": "index.html#section-40",
     "href": "index.html#section-40",
     "title": "",
     "section": "",
-    "text": "Calendrical Calculations\n\n\n\nTime units define their cardinality between adjacent granules.\n\nchronon_cardinality(\n  cal_gregorian$hour(1L),\n  cal_gregorian$day(1L)\n)\n\n[1] 24\n\n\n\n\n\nCardinality methods are traversed across the graph to compute all cardinality pairs.\n\nchronon_cardinality(\n  cal_gregorian$second(1L),\n  cal_gregorian$day(1L)\n)\n\n[1] 86400\n\n\n\n\n\nIrregular cardinalities (e.g. days in month) require a time point.\n\nchronon_cardinality(\n  cal_gregorian$day(1L),\n  cal_gregorian$month(1L),\n  at = yearmonth(\"2020-02-01\")\n)\n\n[1] 29\n\n\n\nAdjacent units with irregular cardinality also require a divmod function for conversions."
+    "text": "Application - Australian CPI\n\n\nlibrary(ggplot2)\nlibrary(ggtime)\nlibrary(dplyr)\naus_cpi |&gt; \n  filter(Time &gt;= year(2020)) |&gt; \n  ggplot() +\n  aes(x = Time, y = CPI, group = Chronon) +\n  geom_line()"
   },
   {
     "objectID": "index.html#section-41",
     "href": "index.html#section-41",
     "title": "",
     "section": "",
-    "text": "Mixed granularity vectors\n\nTo enable mixed-type vectors in R,\nI’ve created vecvec - vectors of vectors.\n\nlibrary(vecvec)\nvecvec(\n  month.abb, \n  rnorm(10),\n  0i ^ (-3:3)\n)\n\n&lt;vecvec[29]&gt;\n [1] Jan         Feb         Mar         Apr         May         Jun        \n [7] Jul         Aug         Sep         Oct         Nov         Dec        \n[13] -1.34381553 -0.97985362 -0.94409799  1.17574635 -0.54207786  0.67782851\n[19]  0.76252293  0.67420766  0.07180535 -0.17553644 Inf+0i      Inf+0i     \n[25] Inf+0i        1+0i        0+0i        0+0i        0+0i     \n\n\nOutside of semantic vectors, vecvec is a bad idea for data analysis - it’s like Excel but for R."
+    "text": "Application - Aggregation\n\ntsibble::aggregate_index()\naggregates time to coarser granularities.\n\n\nlibrary(tsibble)\ntourism\n\n# A tsibble: 24,320 x 5 [1Q]\n# Key:       Region, State, Purpose [304]\n   Quarter Region   State           Purpose  Trips\n     &lt;qtr&gt; &lt;chr&gt;    &lt;chr&gt;           &lt;chr&gt;    &lt;dbl&gt;\n 1 1998 Q1 Adelaide South Australia Business  135.\n 2 1998 Q2 Adelaide South Australia Business  110.\n 3 1998 Q3 Adelaide South Australia Business  166.\n 4 1998 Q4 Adelaide South Australia Business  127.\n 5 1999 Q1 Adelaide South Australia Business  137.\n 6 1999 Q2 Adelaide South Australia Business  200.\n 7 1999 Q3 Adelaide South Australia Business  169.\n 8 1999 Q4 Adelaide South Australia Business  134.\n 9 2000 Q1 Adelaide South Australia Business  154.\n10 2000 Q2 Adelaide South Australia Business  169.\n# ℹ 24,310 more rows\n\n\n\n\n\nlibrary(tsibble)\ntourism |&gt; \n  aggregate_index(\n    list(quarter(1L), year(1L)), \n    Trips = sum(Trips)\n  )\n\n# A tsibble: 30,400 x 6 [1Q, 1Y]\n# Key:       Region, State, Purpose, .granule [608]\n   Quarter   Region         State              Purpose  .granule   Trips\n   &lt;mixtime&gt; &lt;chr&gt;          &lt;chr&gt;              &lt;chr&gt;    &lt;mixtime&gt;  &lt;dbl&gt;\n 1 1998 Q1   Adelaide       South Australia    Business 1 quarter 135.  \n 2 1998 Q1   Adelaide       South Australia    Holiday  1 quarter 224.  \n 3 1998 Q1   Adelaide       South Australia    Other    1 quarter  58.4 \n 4 1998 Q1   Adelaide       South Australia    Visiting 1 quarter 242.  \n 5 1998 Q1   Adelaide Hills South Australia    Business 1 quarter   0   \n 6 1998 Q1   Adelaide Hills South Australia    Holiday  1 quarter   6.81\n 7 1998 Q1   Adelaide Hills South Australia    Other    1 quarter   0   \n 8 1998 Q1   Adelaide Hills South Australia    Visiting 1 quarter   2.99\n 9 1998 Q1   Alice Springs  Northern Territory Business 1 quarter   7.54\n10 1998 Q1   Alice Springs  Northern Territory Holiday  1 quarter   8.15\n# ℹ 30,390 more rows"
   },
   {
     "objectID": "index.html#section-42",
     "href": "index.html#section-42",
     "title": "",
     "section": "",
-    "text": "Mixed granularity vectors\n\nA mixtime is a mixed-type time vector.\n\nstr(\n  c(\n    yearmonth(\"1989-10-26\", tz = \"America/Los_Angeles\"),\n    yearweek(\"1989-10-26\", tz = \"Australia/Melbourne\")\n  )\n)\n\n&lt;mixtime::mixtime&gt; int [1:2] 1 2\n @ x:List of 2\n .. $ :linear&lt;1 month&gt; [1:1] 1989 Oct PDT\n .. $ :linear&lt;1 week&gt; [1:1] 1989 W43 AEST"
+    "text": "Application - Aggregation\n\nCombined with aggregate_key(),\nwe can aggregate cross-temporally\n\nlibrary(tsibble)\ntourism |&gt; \n  aggregate_key(\n    (State / Region) * Purpose,\n    Trips = sum(Trips)\n  ) |&gt; \n  aggregate_index(\n    list(quarter(1L), year(1L)), \n    Trips = sum(Trips)\n  )\n\n# A tsibble: 42,500 x 6 [1Q, 1Y]\n# Key:       State, Purpose, Region, .granule [850]\n\n\n   Quarter   State  Purpose      Region       .granule  Trips\n   &lt;mixtime&gt; &lt;chr*&gt; &lt;chr*&gt;       &lt;chr*&gt;       &lt;mixtime&gt; &lt;dbl&gt;\n 1 1998 Q1   ACT    Business     Canberra     1 quarter 150. \n 2 1998 Q1   ACT    Business     &lt;aggregated&gt; 1 quarter 150. \n 3 1998 Q1   ACT    Holiday      Canberra     1 quarter 196. \n 4 1998 Q1   ACT    Holiday      &lt;aggregated&gt; 1 quarter 196. \n 5 1998 Q1   ACT    Other        Canberra     1 quarter  21.7\n 6 1998 Q1   ACT    Other        &lt;aggregated&gt; 1 quarter  21.7\n 7 1998 Q1   ACT    Visiting     Canberra     1 quarter 183. \n 8 1998 Q1   ACT    Visiting     &lt;aggregated&gt; 1 quarter 183. \n 9 1998 Q1   ACT    &lt;aggregated&gt; Canberra     1 quarter 551. \n10 1998 Q1   ACT    &lt;aggregated&gt; &lt;aggregated&gt; 1 quarter 551. \n# ℹ 42,490 more rows"
   },
   {
     "objectID": "index.html#section-43",
     "href": "index.html#section-43",
     "title": "",
     "section": "",
-    "text": "Mixed shape distributions\n\nThis idea also underpins distributional\n\nlibrary(distributional)\nc(\n  dist_normal(0, 1),\n  dist_poisson(3)\n)\n\n&lt;distribution[2]&gt;\n[1] N(0, 1) Pois(3)\n\n\n\nDistributions are much simpler than time 😅"
+    "text": "Timezones and Astronomy\n\nTwo primitive time units implement timezone and astronomical properties.\n\n\n\nmt_tz_unit\n\n&lt;mixtime::mt_tz_unit&gt; class\n@ parent     : &lt;mixtime::mt_unit&gt;\n@ constructor: function(n, tz) {...}\n@ validator  : function(self) {...}\n@ properties :\n $ n : &lt;integer&gt; or &lt;double&gt;\n $ tz: &lt;character&gt;          \n\n\n\n\nmt_loc_unit\n\n&lt;mixtime::mt_loc_unit&gt; class\n@ parent     : &lt;mixtime::mt_unit&gt;\n@ constructor: function(n, lat, lon, alt) {...}\n@ validator  : function(self) {...}\n@ properties :\n $ n  : &lt;integer&gt; or &lt;double&gt;\n $ lat: &lt;integer&gt; or &lt;double&gt;\n $ lon: &lt;integer&gt; or &lt;double&gt;\n $ alt: &lt;integer&gt; or &lt;double&gt;"
   },
   {
     "objectID": "index.html#section-44",
     "href": "index.html#section-44",
     "title": "",
     "section": "",
-    "text": "Time for ggplot2\n\nTwo types of ggtime functions:\n\n\n\n🖼️ Plot helpers\n\n\nFunctions which are used to quickly create a specific plot.\n\nautoplot() / autolayer()\nggtime::gg_season()\nggtime::gg_subseries()\n\n\n\n\n\n\n\n\n🎨 Grammar extensions\n\n\nFunctions which add new features to the ggplot2’s grammar.\n\nggtime::geom_time_line()\nggtime::scale_x_mixtime()\nggtime::coord_loop()"
+    "text": "Timezones and Astronomy\n\nCalendars extend primitive time systems.\n\n\n\n\ncal_time_civil\n\n&lt;cal_time_civil&gt;\nTime units:\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - millisecond\n\n\n\n\ncal_time_solar\n\n&lt;mt_calendar&gt;\nTime units:\n  - day\n  - ampm\n  - hour\n  - minute\n  - second\n  - degree\n  - arcminute\n  - arcsecond\n  - illumination\n\n\n\n\ncal_time_lunar\n\n&lt;mt_calendar&gt;\nTime units:\n  - month\n  - phase\n\n\n\n\n\n\nThese primitives time units (mt_tz_unit and mt_loc_unit) provide time zone and location based calculations."
   },
   {
     "objectID": "index.html#section-45",
     "href": "index.html#section-45",
     "title": "",
     "section": "",
-    "text": "Geometries\n\ngeom_time_line()\n\nA time-aware version of geom_line(). Shows timezone offsets with dashed lines from the [x/y]_time_offset aesthetic.\n\n\nCode\nlibrary(dplyr)\nlibrary(ggdist)\nlibrary(ggtime)\nlibrary(lubridate) # TODO - remove\nlibrary(ggplot2)\ntz_shift &lt;- as_tibble(tsibbledata::gafa_stock) |&gt;\n  filter(\n    (Symbol == \"AAPL\" & Date &lt;= \"2014-01-15\") | \n      (Symbol == \"GOOG\" & Date &lt;= \"2014-01-13\")\n  ) |&gt;\n  mutate(Date = Sys.Date() + lubridate::hours(c(1:3, 3:9, 1:2, 4:9)), DST = ifelse(Symbol == \"AAPL\", \"DST Ends\", \"DST Begins\")) |&gt; \n  slice(1:3, 3:12, 12:n()) |&gt; \n  mutate(\n    open = duplicated(Open),\n    closed = c(open[-1], FALSE),\n    Date = Date + open*3600*((DST==\"DST Begins\")*2-1)\n  ) \n\ntz_shift |&gt; \n  ggplot(aes(x = Date, y = Close)) + \n  geom_path(aes(group = cumsum(open))) + \n  geom_path(linetype = \"dashed\", data = filter(tz_shift, open | closed)) +\n  facet_wrap(vars(DST), ncol = 2, scales = \"free_y\") + \n  scale_shape_manual(values = c(\"TRUE\" = 16, \"FALSE\" = 1)) + \n  guides(shape = \"none\")\n\n\n\n\n\n\n\n\n\n\n\n\n\ngeom_time_candle()\nShows value changes over time periods (e.g. daily, weekly, …) which are calculated using the stat_candle statistic.\n\n\n\nCode\ntsibbledata::gafa_stock |&gt; \n  filter(Symbol == \"GOOG\") |&gt; \n  filter(tsibble::yearmonth(Date) == tsibble::yearmonth(\"2014 Jun\")) |&gt; \n  ggplot(aes(x = Date)) + \n  tidyquant::geom_candlestick(\n    aes(open = Open, high = High, low = Low, close = Close),\n    colour_up = \"#1FB974\", fill_up = \"#1FB974\", colour_down = \"#F4375D\", fill_down = \"#F4375D\"\n  ) + \n  scale_x_date(date_labels = \"%d %b %Y\") +\n  labs(y = \"GOOG Stock\")"
+    "text": "Calendrical Calculations\n\n\n\nTime units define their cardinality between adjacent granules.\n\nchronon_cardinality(\n  cal_gregorian$hour(1L),\n  cal_gregorian$day(1L)\n)\n\n[1] 24\n\n\n\n\n\nCardinality methods are traversed across the graph to compute all cardinality pairs.\n\nchronon_cardinality(\n  cal_gregorian$second(1L),\n  cal_gregorian$day(1L)\n)\n\n[1] 86400\n\n\n\n\n\nIrregular cardinalities (e.g. days in month) require a time point.\n\nchronon_cardinality(\n  cal_gregorian$day(1L),\n  cal_gregorian$month(1L),\n  at = yearmonth(\"2020-02-01\")\n)\n\n[1] 29\n\n\n\nAdjacent units with irregular cardinality also require a divmod function for conversions."
   },
   {
     "objectID": "index.html#section-46",
     "href": "index.html#section-46",
     "title": "",
     "section": "",
-    "text": "Positions [these are now in scale]\nThe x/y position of time is timezone adjusted:\n\nposition_time_absolute() positions time at its exact global location.\n\n\n\nCode\nlibrary(tsibble)\npedestrian |&gt; \n  filter(Sensor == \"Southern Cross Station\") |&gt; \n  filter(lubridate::year(Date_Time) == 2015) |&gt; \n  mutate(Date_Time = force_tz(make_datetime(lubridate::year(Date), lubridate::month(Date), lubridate::day(Date), Time), \"Australia/Melbourne\")) |&gt; \n  ggplot(aes(x = Date_Time - as.POSIXct(Date), y = Count, group = Date)) + \n  geom_line(alpha = 0.2) + \n  theme(axis.text.x = element_blank()) + \n  labs(x = \"Time\", title = \"Hourly pedestrians passing Southern Cross Station\")\n\n\n\n\n\n\n\n\n\nTimezone differences (e.g. daylight savings) misaligns seasonal patterns.\n\n\n\n\nposition_time_civil() positions time as it appears locally in each timezone.\n\n\nCode\npedestrian |&gt; \n  filter(Sensor == \"Southern Cross Station\") |&gt; \n  filter(lubridate::year(Date_Time) == 2015) |&gt; \n  ggplot(aes(x = Time, y = Count, group = Date)) + \n  geom_line(alpha = 0.2) + \n  theme(axis.text.x = element_blank()) + \n  labs(x = \"Time\", title = \"Hourly pedestrians passing Southern Cross Station\")"
+    "text": "Mixed granularity vectors\n\nTo enable mixed-type vectors in R,\nI’ve created vecvec - vectors of vectors.\n\nlibrary(vecvec)\nvecvec(\n  month.abb, \n  rnorm(10),\n  0i ^ (-3:3)\n)\n\n&lt;vecvec[29]&gt;\n [1] Jan         Feb         Mar         Apr         May         Jun        \n [7] Jul         Aug         Sep         Oct         Nov         Dec        \n[13] -1.34381553 -0.97985362 -0.94409799  1.17574635 -0.54207786  0.67782851\n[19]  0.76252293  0.67420766  0.07180535 -0.17553644 Inf+0i      Inf+0i     \n[25] Inf+0i        1+0i        0+0i        0+0i        0+0i     \n\n\nOutside of semantic vectors, vecvec is a bad idea for data analysis - it’s like Excel but for R."
   },
   {
     "objectID": "index.html#section-47",
     "href": "index.html#section-47",
     "title": "",
     "section": "",
-    "text": "Scales\n\nThe scales in ggplot2 provide:\n\nscale_*_date() for Date,\nscale_*_datetime() for POSIXct,\nscale_*_time() for hms.\n\nExtension packages (e.g. tsibble) add:\n\nscale_*_yearquarter() for yearquarter,\nscale_*_yearmonth() for yearmonth,\nscale_*_yearweek() for yearweek.\n\n\n\n\n\n\n\n\n\n\nUnified scales for time series\n\n\nmixtime has many calendars and granularities.\nggtime unifies them all with scale_*_mixtime()."
+    "text": "Mixed granularity vectors\n\nA mixtime is a mixed-type time vector.\n\nstr(\n  c(\n    yearmonth(\"1989-10-26\", tz = \"America/Los_Angeles\"),\n    yearweek(\"1989-10-26\", tz = \"Australia/Melbourne\")\n  )\n)\n\n&lt;mixtime::mixtime&gt; int [1:2] 1 2\n @ x:List of 2\n .. $ :linear&lt;1 month&gt; [1:1] 1989 Oct PDT\n .. $ :linear&lt;1 week&gt; [1:1] 1989 W43 AEST"
   },
   {
     "objectID": "index.html#section-48",
     "href": "index.html#section-48",
     "title": "",
     "section": "",
-    "text": "Scales\nThe mixtime scales support temporal labels and breaks, much like ggplot2:\n\ntime_labels (mixtime format strings)\ntime_breaks (duration, e.g. months(3L))\n\n\nThese scales also have alignment options:\n\nalign_discrete (numeric, 0-1)\ntime_warp (duration, e.g. months(1L)) warp (times, e.g. 2025-01-28)"
+    "text": "Mixed shape distributions\n\nThis idea also underpins distributional\n\nlibrary(distributional)\nc(\n  dist_normal(0, 1),\n  dist_poisson(3)\n)\n\n&lt;distribution[2]&gt;\n[1] N(0, 1) Pois(3)\n\n\n\nDistributions are much simpler than time 😅"
   },
   {
     "objectID": "index.html#section-49",
     "href": "index.html#section-49",
     "title": "",
     "section": "",
-    "text": "Granularity alignment\n\n{ggtime} aligns mixed granularities.\nImagine Australian births (annual) compared with total births by state (monthly).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n📅 Temporal alignment across granularities\n\n\nWhen constrained to Date and POSIXct, left alignment is commonly used for less-frequent granularities.\ne.g. 2025-01-01 can be 2025, Jan 2025, or Jan 1 2025.\nConsequently, plotting is also often left-aligned."
+    "text": "Time for ggplot2\n\nTwo types of ggtime functions:\n\n\n\n🖼️ Plot helpers\n\n\nFunctions which are used to quickly create a specific plot.\n\nautoplot() / autolayer()\nggtime::gg_season()\nggtime::gg_subseries()\n\n\n\n\n\n\n\n\n🎨 Grammar extensions\n\n\nFunctions which add new features to the ggplot2’s grammar.\n\nggtime::geom_time_line()\nggtime::scale_x_mixtime()\nggtime::coord_loop()"
   },
   {
     "objectID": "index.html#section-50",
     "href": "index.html#section-50",
     "title": "",
     "section": "",
-    "text": "Granularity alignment\n{ggtime} center aligns granularities.\n\n\n\n\n\n\n\n\n\n\n\n\n📅 Aligning temporal granularities\n\n\nSpecify alignment of different granularities with scale_x_mixtime(align_discrete = aes_nudge())."
+    "text": "Geometries\n\ngeom_time_line()\n\nA time-aware version of geom_line(). Shows timezone offsets with dashed lines from the [x/y]_time_offset aesthetic.\n\n\nCode\nlibrary(dplyr)\nlibrary(ggdist)\nlibrary(ggtime)\nlibrary(lubridate) # TODO - remove\nlibrary(ggplot2)\ntz_shift &lt;- as_tibble(tsibbledata::gafa_stock) |&gt;\n  filter(\n    (Symbol == \"AAPL\" & Date &lt;= \"2014-01-15\") | \n      (Symbol == \"GOOG\" & Date &lt;= \"2014-01-13\")\n  ) |&gt;\n  mutate(Date = Sys.Date() + lubridate::hours(c(1:3, 3:9, 1:2, 4:9)), DST = ifelse(Symbol == \"AAPL\", \"DST Ends\", \"DST Begins\")) |&gt; \n  slice(1:3, 3:12, 12:n()) |&gt; \n  mutate(\n    open = duplicated(Open),\n    closed = c(open[-1], FALSE),\n    Date = Date + open*3600*((DST==\"DST Begins\")*2-1)\n  ) \n\ntz_shift |&gt; \n  ggplot(aes(x = Date, y = Close)) + \n  geom_path(aes(group = cumsum(open))) + \n  geom_path(linetype = \"dashed\", data = filter(tz_shift, open | closed)) +\n  facet_wrap(vars(DST), ncol = 2, scales = \"free_y\") + \n  scale_shape_manual(values = c(\"TRUE\" = 16, \"FALSE\" = 1)) + \n  guides(shape = \"none\")\n\n\n\n\n\n\n\n\n\n\n\n\n\ngeom_time_candle()\nShows value changes over time periods (e.g. daily, weekly, …) which are calculated using the stat_candle statistic.\n\n\n\nCode\ntsibbledata::gafa_stock |&gt; \n  filter(Symbol == \"GOOG\") |&gt; \n  filter(tsibble::yearmonth(Date) == tsibble::yearmonth(\"2014 Jun\")) |&gt; \n  ggplot(aes(x = Date)) + \n  tidyquant::geom_candlestick(\n    aes(open = Open, high = High, low = Low, close = Close),\n    colour_up = \"#1FB974\", fill_up = \"#1FB974\", colour_down = \"#F4375D\", fill_down = \"#F4375D\"\n  ) + \n  scale_x_date(date_labels = \"%d %b %Y\") +\n  labs(y = \"GOOG Stock\")"
   },
   {
     "objectID": "index.html#section-51",
     "href": "index.html#section-51",
     "title": "",
     "section": "",
-    "text": "Time warping\n{ggtime} defaults to center alignment.\n\nCycles are repeating patterns with an irregular duration (and shape).\n\n\n\n\n\n\n\n\n\n\n\nWarping cycles to have the same length as “% of cycle” can help compare cycle shapes.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n📅 Temporal alignment across cycles\n\n\nIn scale_x_mixtime(), warp time with\n\nwarp (stretch time between specific time points)\ntime_warp (stretch time by duration, e.g. \"1 month\")"
+    "text": "Positions [these are now in scale]\nThe x/y position of time is timezone adjusted:\n\nposition_time_absolute() positions time at its exact global location.\n\n\n\nCode\nlibrary(tsibble)\npedestrian |&gt; \n  filter(Sensor == \"Southern Cross Station\") |&gt; \n  filter(lubridate::year(Date_Time) == 2015) |&gt; \n  mutate(Date_Time = force_tz(make_datetime(lubridate::year(Date), lubridate::month(Date), lubridate::day(Date), Time), \"Australia/Melbourne\")) |&gt; \n  ggplot(aes(x = Date_Time - as.POSIXct(Date), y = Count, group = Date)) + \n  geom_line(alpha = 0.2) + \n  theme(axis.text.x = element_blank()) + \n  labs(x = \"Time\", title = \"Hourly pedestrians passing Southern Cross Station\")\n\n\n\n\n\n\n\n\n\nTimezone differences (e.g. daylight savings) misaligns seasonal patterns.\n\n\n\n\nposition_time_civil() positions time as it appears locally in each timezone.\n\n\nCode\npedestrian |&gt; \n  filter(Sensor == \"Southern Cross Station\") |&gt; \n  filter(lubridate::year(Date_Time) == 2015) |&gt; \n  ggplot(aes(x = Time, y = Count, group = Date)) + \n  geom_line(alpha = 0.2) + \n  theme(axis.text.x = element_blank()) + \n  labs(x = \"Time\", title = \"Hourly pedestrians passing Southern Cross Station\")"
   },
   {
     "objectID": "index.html#section-52",
     "href": "index.html#section-52",
+    "title": "",
+    "section": "",
+    "text": "Scales\n\nThe scales in ggplot2 provide:\n\nscale_*_date() for Date,\nscale_*_datetime() for POSIXct,\nscale_*_time() for hms.\n\nExtension packages (e.g. tsibble) add:\n\nscale_*_yearquarter() for yearquarter,\nscale_*_yearmonth() for yearmonth,\nscale_*_yearweek() for yearweek.\n\n\n\n\n\n\n\n\n\n\nUnified scales for time series\n\n\nmixtime has many calendars and granularities.\nggtime unifies them all with scale_*_mixtime()."
+  },
+  {
+    "objectID": "index.html#section-53",
+    "href": "index.html#section-53",
+    "title": "",
+    "section": "",
+    "text": "Scales\nThe mixtime scales support temporal labels and breaks, much like ggplot2:\n\ntime_labels (mixtime format strings)\ntime_breaks (duration, e.g. months(3L))\n\n\nThese scales also have alignment options:\n\nalign_discrete (numeric, 0-1)\ntime_warp (duration, e.g. months(1L)) warp (times, e.g. 2025-01-28)"
+  },
+  {
+    "objectID": "index.html#section-54",
+    "href": "index.html#section-54",
+    "title": "",
+    "section": "",
+    "text": "Granularity alignment\n\n{ggtime} aligns mixed granularities.\nImagine Australian births (annual) compared with total births by state (monthly).\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n📅 Temporal alignment across granularities\n\n\nWhen constrained to Date and POSIXct, left alignment is commonly used for less-frequent granularities.\ne.g. 2025-01-01 can be 2025, Jan 2025, or Jan 1 2025.\nConsequently, plotting is also often left-aligned."
+  },
+  {
+    "objectID": "index.html#section-55",
+    "href": "index.html#section-55",
+    "title": "",
+    "section": "",
+    "text": "Granularity alignment\n{ggtime} center aligns granularities.\n\n\n\n\n\n\n\n\n\n\n\n\n📅 Aligning temporal granularities\n\n\nSpecify alignment of different granularities with scale_x_mixtime(align_discrete = aes_nudge())."
+  },
+  {
+    "objectID": "index.html#section-56",
+    "href": "index.html#section-56",
+    "title": "",
+    "section": "",
+    "text": "Time warping\n{ggtime} defaults to center alignment.\n\nCycles are repeating patterns with an irregular duration (and shape).\n\n\n\n\n\n\n\n\n\n\n\nWarping cycles to have the same length as “% of cycle” can help compare cycle shapes.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n📅 Temporal alignment across cycles\n\n\nIn scale_x_mixtime(), warp time with\n\nwarp (stretch time between specific time points)\ntime_warp (stretch time by duration, e.g. \"1 month\")"
+  },
+  {
+    "objectID": "index.html#section-57",
+    "href": "index.html#section-57",
     "title": "",
     "section": "",
     "text": "Facets & Coordinates\nSeason plots loop time over seasonalities.\n\ncoord_loop()\n\nThe time loop points can be specified with:\n\nloops (loop over specific time points)\ntime_loops (over durations - weeks(1L))"
